@@ -1,6 +1,7 @@
 import surprise as surp
+import pandas as pd
 class CFData:
-    def __init__(self, df_rating, test_ratio=None, df_id_name_table=None):
+    def __init__(self, df_rating, test_ratio=None, df_id_name_table=None, rating_scale = (1, 5)):
         """
         Initialize collaborative filtering data class
         :param df_rating: pandas dataframe containing columns: 'userID', 'itemID', 'rating' in correct order
@@ -14,7 +15,7 @@ class CFData:
             cfdata_example.convert_name_to_id('Toy Story (1995)')
             cfdata_example.convert_id_to_name(1)
         """      
-        reader = surp.Reader(rating_scale=(0.5, 5))
+        reader = surp.Reader(rating_scale=rating_scale)
         rating_data = surp.Dataset.load_from_df(df_rating, reader)
         self.trainset = rating_data.build_full_trainset()
   

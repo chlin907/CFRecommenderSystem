@@ -1,11 +1,23 @@
 class CFModel:
+# Simplified procedure to train Surprise collaborative filtering model
     def __init__(self, model, *args, **kwargs):
         self.model = model(*args, **kwargs)
+        """
+        Initialize collaborative filtering model class
+        :param model: Str. Model name in Surprise package
+        :return: None
+        """      
     
     def fit(self, data_train):
         self.model.fit(data_train)
     
     def get_similar_item(self, input_item_id, num_neighbor):
+        """
+        Get TOP-num_neighbor similar items based on an input item. Unify the procedure of Surprise KNN-like and SVD-like models
+        :param input_item_id: Int. 
+        :param num_neighbor: How many most similar items
+        :return: List. A list of most similar items in item id format
+        """      
         # Convert input item_id to inner id generated during training
         input_inner_id = self.model.trainset.to_inner_iid(input_item_id)
         
@@ -21,6 +33,7 @@ class CFModel:
             
 
     def __get_top_similarities(self, item_inner_id, k):
+        # Get TOP-k similar item for matix factorization model
         from math import sqrt
         def cosine_distance(vector_a, vector_b):
             ab = sum([i*j for (i, j) in zip(vector_a, vector_b)])
