@@ -1,7 +1,7 @@
 import surprise as surp
 import pandas as pd
 class CFData:
-    def __init__(self, df_rating, test_ratio=None, df_id_name_table=None, rating_scale = (1, 5)):
+    def __init__(self, df_rating, test_ratio=None, df_id_name_table=None, rating_scale=(1, 5)):
         """
         Initialize collaborative filtering data class
         :param df_rating: pandas dataframe containing columns: 'userID', 'itemID', 'rating' in correct order

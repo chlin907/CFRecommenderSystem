@@ -1,14 +1,19 @@
 class CFModel:
 # Simplified procedure to train Surprise collaborative filtering model
     def __init__(self, model, *args, **kwargs):
-        self.model = model(*args, **kwargs)
         """
         Initialize collaborative filtering model class
         :param model: Str. Model name in Surprise package
         :return: None
         """      
+        self.model = model(*args, **kwargs)
     
     def fit(self, data_train):
+        """
+        Fit model in Surprise package
+        :param data_train: Surprise data format
+        :return: None
+        """      
         self.model.fit(data_train)
     
     def get_similar_item(self, input_item_id, num_neighbor):
@@ -16,7 +21,7 @@ class CFModel:
         Get TOP-num_neighbor similar items based on an input item. Unify the procedure of Surprise KNN-like and SVD-like models
         :param input_item_id: Int. 
         :param num_neighbor: How many most similar items
-        :return: List. A list of most similar items in item id format
+        :return: List. A list of most similar items in item id format (NOT inner item id)
         """      
         # Convert input item_id to inner id generated during training
         input_inner_id = self.model.trainset.to_inner_iid(input_item_id)
@@ -33,6 +38,14 @@ class CFModel:
             
 
     def __get_top_similarities(self, item_inner_id, k):
+        """
+        Get TOP-num_neighbor similar items based on an input item for matrix factorization method
+        :param input_item_id:  Int. inner id
+        :param k: Int. k in top-k
+        :return: List. A list of most similar items in item INNER id format
+
+        TODO: Only top-k is needed. No need to sort whole similarity_table
+        """      
         # Get TOP-k similar item for matix factorization model
         from math import sqrt
         def cosine_distance(vector_a, vector_b):
